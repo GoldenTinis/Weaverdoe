@@ -1,29 +1,24 @@
-import random
-f = open("4_words.txt", "rt")
-words = f.read().splitlines()
-f.close()
-f = open("4Dictionary.txt", "rt")
-dictionary = f.read().splitlines()
-f.close()
+from random import randint
 
+with open("4_words.txt") as f:
+    words = f.read().splitlines()
+with open("4Dictionary.txt") as f:
+    dictionary = f.read().splitlines()
 
 def two_random_words():
-    num1 = random.randint(0, len(words))
-    num2 = random.randint(0, len(words))
-    while num2 == num1:
-        num2 = random.randint(0, len(words))
-    word1 = words[num1]
-    word2 = words[num2]
+    word1 = words[randint(0, len(words))]
+    word2 = words[randint(0, len(words))]
+    while word2 == word1:
+        word2 = words[randint(0, len(words))]
     return [word1, word2]
 
 
 def check_win(current_word, win_word):
-    if current_word == win_word:
-        return True
+    return current_word == win_word
 
 
-def print_board(word01, history):
-    print(word01[0] + " ---> " + word01[1])
+def print_board(game_words, history):
+    print(game_words[0] + " ---> " + game_words[1])
     if history != []:
         print("\n".join(history))
 
@@ -51,7 +46,8 @@ def backspace(current, history, times):
 
 
 def run_weaver():
-    while True:
+    ans = "y"
+    while ans == "y" or ans == "yes":
         current = ""
         twowords = two_random_words()
         history = [twowords[0][:]]
@@ -76,10 +72,6 @@ def run_weaver():
                 break
             history.append(current)
         ans = input("Play again? (y/n): ").lower()
-        if ans == "y" or ans == "yes":
-            continue
-        else:
-            break
 
 
 run_weaver()
